@@ -1,4 +1,4 @@
-# SellFirst Repositories
+# Core Repositories
 
 🍅 Laravel Repositories is used to abstract the data layer, making our application more flexible to maintain.
 
@@ -7,7 +7,7 @@
 ## Installation
 
 ```bash
-composer require sellfirstphp/sell-first-repositories
+composer require goldoni/core-repositories:dev-main
 ```
 
 who to use it
