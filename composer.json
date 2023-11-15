@@ -1,0 +1,81 @@
+{
+    "name": "goldoni/core-repositories",
+    "description": "Laravel Repositories is used to abstract the data layer, making our application more flexible to maintain.\n\n",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "Repositories"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Goldoni\\CoreRepositories\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "pint": [
+            "./vendor/bin/pint"
+        ],
+        "stan": [
+            "./vendor/bin/phpstan analyse --memory-limit=3g"
+        ],
+        "test": [
+            "./vendor/bin/pest"
+        ],
+        "types": [
+            "./vendor/bin/pest --type-coverage"
+        ],
+        "coverage": [
+            "./vendor/bin/pest --coverage"
+        ],
+        "dump": [
+            "composer dump-autoload --optimize --classmap-authoritative --strict-psr"
+        ],
+        "rector": [
+            "./vendor/bin/rector process"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Goldoni\\CoreRepositories\\CoreRepositoriesServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "role": "Developer",
+            "name": "Goldoni",
+            "email": "fotsa.goldoni@yahoo.fr",
+            "homepage": "https://sell-first.com/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^8.13",
+        "pestphp/pest": "^2.24",
+        "pestphp/pest-plugin-type-coverage": "^2.4",
+        "phpstan/phpstan": "^1.10",
+        "rector/rector": "^0.18.5",
+        "roave/security-advisories": "dev-latest"
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "*"
+    }
+}
