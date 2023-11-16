@@ -12,7 +12,7 @@ class WhereNot
     /**
      * Where constructor.
      */
-    public function __construct(private readonly string $column, private readonly int $value)
+    public function __construct(private readonly string $column, private readonly int|string $value)
     {
     }
 
