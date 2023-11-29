@@ -19,7 +19,7 @@ class WhereWithoutAdmin
     /**
      * Where constructor.
      */
-    public function __construct(private readonly string $column, private readonly ?int $value = null)
+    public function __construct(private readonly string $column, private readonly ?string $value = null)
     {
     }
 

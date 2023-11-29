@@ -34,7 +34,7 @@ use App\Models\User;
 use App\Processes\Contracts\ModelPayloadInterface;
 use App\Repositories\Criteria\Where;
 use App\Repositories\RepositoryAbstract;
-use Modules\Users\Repositories\Contracts\UsersRepository;
+use Modules\Users\App\Repositories\Contracts\UsersRepository;
 
 /**
  * Class EloquentPostsRepository.
