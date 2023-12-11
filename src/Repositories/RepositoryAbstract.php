@@ -136,7 +136,7 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $this->model->create($data);
     }
 
-    public function update($id, array $data)
+    public function update(string $id, array $data)
     {
         $record = $this->find($id);
         $record->update($data);
@@ -162,7 +162,7 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $this->model->forceDelete();
     }
 
-    public function forceDelete(int $id)
+    public function forceDelete(string $id)
     {
         $record = $this->model->onlyTrashed()->findOrFail($id);
         $record->forceDelete();
@@ -170,7 +170,7 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $record;
     }
 
-    public function restore(int $id)
+    public function restore(string $id)
     {
         $record = $this->model->onlyTrashed()->findOrFail($id);
         $record->restore();

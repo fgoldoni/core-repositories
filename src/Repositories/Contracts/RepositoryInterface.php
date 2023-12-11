@@ -33,15 +33,15 @@ interface RepositoryInterface
 
     public function create(array $data);
 
-    public function update(int $id, array $data);
+    public function update(string $id, array $data);
 
-    public function delete(int $id);
+    public function delete(string $id);
 
-    public function forceDelete(int $id);
+    public function forceDelete(string $id);
 
     public function deleteAll(): ?bool;
 
-    public function restore(int $id);
+    public function restore(string $id);
 
     public function pluck($column, $key = null);
 
