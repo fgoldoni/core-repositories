@@ -3,6 +3,7 @@
 namespace Goldoni\CoreRepositories\Repositories\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RepositoryInterface
@@ -11,7 +12,7 @@ interface RepositoryInterface
 
     public function get($columns = ['*']);
 
-    public function find(int $id);
+    public function find(int|string|Model $id);
 
     public function first($columns = ['*']);
 
@@ -33,21 +34,21 @@ interface RepositoryInterface
 
     public function create(array $data);
 
-    public function update(string $id, array $data);
+    public function update(int|string|Model $id, array $data);
 
-    public function delete(string $id);
+    public function delete(int|string|Model $id);
 
-    public function forceDelete(string $id);
+    public function forceDelete(int|string|Model $id);
 
     public function deleteAll(): ?bool;
 
-    public function restore(string $id);
+    public function restore(int|string|Model $id);
 
     public function pluck($column, $key = null);
 
-    public function sync($id, $relation, $attributes, $detaching = true);
+    public function sync(int|string|Model $id, $relation, $attributes, $detaching = true);
 
-    public function syncWithoutDetaching($id, $relation, $attributes);
+    public function syncWithoutDetaching(int|string|Model $id, $relation, $attributes);
 
     public function firstOrNew(array $attributes = []);
 

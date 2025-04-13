@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
-/**
- * Class RepositoryAbstract.
- */
 abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterface
 {
     protected $model;
@@ -35,10 +32,6 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $this->all($columns);
     }
 
-    /**
-     * @param  mixed  ...$criteria
-     * @return $this
-     */
     public function withCriteria(...$criteria)
     {
         $criteria = $this->arr->flatten($criteria);
@@ -55,10 +48,6 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $this->model->findOrFail($id, $columns);
     }
 
-    /**
-     * @param  array  $columns
-     * @return mixed
-     */
     public function first($columns = ['*'])
     {
         return $this->model->firstOrFail($columns);
@@ -136,17 +125,17 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $this->model->create($data);
     }
 
-    public function update(string $id, array $data)
+    public function update(Model|int|string $id, array $data)
     {
-        $record = $this->find($id);
+        $record = $this->resolveIdOrModel($id);
         $record->update($data);
 
         return $record;
     }
 
-    public function delete(string $id)
+    public function delete(Model|int|string $id)
     {
-        $record = $this->find($id);
+        $record = $this->resolveIdOrModel($id);
         $record->delete();
 
         return $record;
@@ -157,22 +146,23 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $this->model->delete();
     }
 
-    public function forceDeleteAll(): ?bool
+    public function forceDelete(Model|int|string $id)
     {
-        return $this->model->forceDelete();
-    }
+        $record = $this->model->onlyTrashed()->findOrFail(
+            $id instanceof Model ? $id->getKey() : $id
+        );
 
-    public function forceDelete(string $id)
-    {
-        $record = $this->model->onlyTrashed()->findOrFail($id);
         $record->forceDelete();
 
         return $record;
     }
 
-    public function restore(string $id)
+    public function restore(Model|int|string $id)
     {
-        $record = $this->model->onlyTrashed()->findOrFail($id);
+        $record = $this->model->onlyTrashed()->findOrFail(
+            $id instanceof Model ? $id->getKey() : $id
+        );
+
         $record->restore();
 
         return $record;
@@ -189,6 +179,11 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $model;
     }
 
+    protected function resolveIdOrModel(Model|int|string $id): Model
+    {
+        return $id instanceof Model ? $id : $this->find($id);
+    }
+
     private function modelNotFoundException($model)
     {
         if (!$model) {
@@ -201,17 +196,17 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $this->model->pluck($column, $key);
     }
 
-    public function sync($id, $relation, $attributes, $detaching = true)
+    public function sync(Model|int|string $id, $relation, $attributes, $detaching = true)
     {
-        return $this->find($id)->{$relation}()->sync($attributes, $detaching);
+        return $this->resolveIdOrModel($id)->{$relation}()->sync($attributes, $detaching);
     }
 
-    public function detach($id, $relation, $attributes)
+    public function detach(Model|int|string $id, $relation, $attributes)
     {
-        return $this->find($id)->{$relation}()->detach($attributes);
+        return $this->resolveIdOrModel($id)->{$relation}()->detach($attributes);
     }
 
-    public function syncWithoutDetaching($id, $relation, $attributes)
+    public function syncWithoutDetaching(Model|int|string $id, $relation, $attributes)
     {
         return $this->sync($id, $relation, $attributes, false);
     }
