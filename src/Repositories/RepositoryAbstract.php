@@ -13,7 +13,7 @@ use Illuminate\Support\Arr;
 
 abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterface
 {
-    protected $model;
+    protected Model $model;
 
     public function __construct(private readonly Arr $arr)
     {
@@ -103,7 +103,7 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $model;
     }
 
-    public function paginate(int $perPage = null, $columns = ['*'], $method = 'paginate'): LengthAwarePaginator
+    public function paginate(?int $perPage = null, $columns = ['*'], $method = 'paginate'): LengthAwarePaginator
     {
         $perPage ??= request()->get('perPage', 10);
 

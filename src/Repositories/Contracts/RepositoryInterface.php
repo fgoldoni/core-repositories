@@ -8,25 +8,25 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RepositoryInterface
 {
-    public function all(): Collection;
+    public function all($columns = ['*']): Collection;
 
     public function get($columns = ['*']);
 
-    public function find(int|string|Model $id);
+    public function find(int|string|Model $id, $columns = ['*']);
 
     public function first($columns = ['*']);
 
-    public function findWhere(string $column, $value);
+    public function findWhere(string $column, $value = null, $columns = ['*']);
 
     public function findWhereDate(string $column, string $op = '=', $value = null, $columns = ['*']);
 
-    public function findWhereFirst(string $column, $value);
+    public function findWhereFirst(string $column, $value, $columns = ['*']);
 
     public function findWhereIn($field, array $values, $columns = ['*']);
 
     public function findWhereNotIn($field, array $values, $columns = ['*']);
 
-    public function paginate(int $perPage): LengthAwarePaginator;
+    public function paginate(?int $perPage = null, $columns = ['*'], $method = 'paginate'): LengthAwarePaginator;
 
     public function count(): int;
 
