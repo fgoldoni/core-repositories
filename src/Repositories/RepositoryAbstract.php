@@ -5,6 +5,7 @@ namespace Goldoni\CoreRepositories\Repositories;
 use Goldoni\CoreRepositories\Repositories\Contracts\RepositoryInterface;
 use Goldoni\CoreRepositories\Repositories\Criteria\CriteriaInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,14 +14,14 @@ use Illuminate\Support\Arr;
 
 abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterface
 {
-    protected Model $model;
+    protected Builder $model;
 
     public function __construct(private readonly Arr $arr)
     {
         $this->model = $this->resolveModel();
     }
 
-    abstract public function model();
+    abstract public function model(): string;
 
     public function all($columns = ['*']): Collection
     {
@@ -168,15 +169,16 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $record;
     }
 
-    protected function resolveModel()
+    protected function resolveModel(): Builder
     {
-        $model = app()->make($this->model());
+        $modelClass = $this->model();
+        $model = app()->make($modelClass);
 
-        if (!$model instanceof Model) {
-            throw new Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
+        if (! $model instanceof Model) {
+            throw new Exception("Class {$modelClass} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         }
 
-        return $model;
+        return $model->newQuery();
     }
 
     protected function resolveIdOrModel(Model|int|string $id): Model
