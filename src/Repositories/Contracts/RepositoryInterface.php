@@ -42,6 +42,8 @@ interface RepositoryInterface
 
     public function deleteAll(): ?bool;
 
+    public function findWithoutScopes($id, $columns = ['*']);
+
     public function restore(int|string|Model $id);
 
     public function pluck($column, $key = null);

@@ -158,6 +158,11 @@ abstract class RepositoryAbstract implements RepositoryInterface, CriteriaInterf
         return $record;
     }
 
+    public function findWithoutScopes($id, $columns = ['*'])
+    {
+        return $this->model->withoutGlobalScopes()->withTrashed()->findOrFail($id, $columns);
+    }
+
     public function restore(Model|int|string $id)
     {
         $record = $this->model->onlyTrashed()->findOrFail(
